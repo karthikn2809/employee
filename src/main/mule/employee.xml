@@ -63,4 +63,23 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
+	<flow name="employeeFlow" doc:id="5c66ba0a-37ae-4cf1-84cb-ee021e57f8a9" >
+		<http:listener doc:name="Listener" doc:id="d912bb3c-df0e-4f83-975c-ba2b8408a7e1" config-ref="HTTP_Listener_config" path="/employee/{id}" allowedMethods="DELETE"/>
+		<db:delete doc:name="Delete" doc:id="8f3e77dc-2645-4452-8086-1db87061f8b6" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE from employee where e_id = :id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	'id' : attributes.uriParams.id
+}]]]></db:input-parameters>
+		</db:delete>
+		<ee:transform doc:name="Transform Message" doc:id="25aa4c26-9282-4072-b9c7-55884d21e248" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "Data deleted"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
 </mule>
