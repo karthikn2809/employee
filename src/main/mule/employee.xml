@@ -12,9 +12,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="25aa0292-f8f1-4a59-bbba-a82fec9c5fb0" >
 		<db:generic-connection url="jdbc:postgresql://localhost:5432/MHS" driverClassName="org.postgresql.Driver" user="postgres" password="postgres" />
 	</db:config>
+	<db:config name="Database_Config1" doc:name="Database Config" doc:id="b1e6c2bb-b696-4122-97b1-f61b8fc27fef" >
+		<db:generic-connection url="jdbc:postgresql://localhost:5432/MHS" driverClassName="org.postgresql.Driver" user="postgres" password="postgres" />
+	</db:config>
 	<flow name="fetchEmployee" doc:id="217e2bee-4bd1-4fd2-8679-18fd894c1213" >
 		<http:listener doc:name="Listener" doc:id="e4c8cea4-45f8-4dba-ab3a-901a6a3d491b" config-ref="HTTP_Listener_config" path="/employee"/>
-		<db:select doc:name="Select" doc:id="deacf4fa-b7a4-47ed-857f-6e86a9695468" config-ref="Database_Config">
+		<db:select doc:name="Select" doc:id="deacf4fa-b7a4-47ed-857f-6e86a9695468" config-ref="Database_Config1">
 			<db:sql ><![CDATA[SELECT * from employee]]></db:sql>
 		</db:select>
 		<ee:transform doc:name="Transform Message" doc:id="b601d625-3f9d-4c23-856d-ca2a7e1900d3" >
@@ -28,7 +31,7 @@ payload]]></ee:set-payload>
 	</flow>
 	<flow name="postEmployee" doc:id="e3a948e6-7dfa-49f9-9275-c85185757f62" >
 		<http:listener doc:name="Listener" doc:id="91f0ff74-52a9-4f57-9eb6-5442d9cee0e6" config-ref="HTTP_Listener_config" path="/employee" allowedMethods="POST"/>
-		<db:insert doc:name="Insert" doc:id="6c7f56cd-728e-411a-ab57-412353162b18" config-ref="Database_Config">
+		<db:insert doc:name="Insert" doc:id="6c7f56cd-728e-411a-ab57-412353162b18" config-ref="Database_Config1">
 			<db:sql ><![CDATA[INSERT into employee(e_id,e_name,e_salary) values(:id ,:name,:salary)]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{ 'id' : payload.id,
 	'name' : payload.name,
@@ -48,7 +51,7 @@ output application/json
 	</flow>
 	<flow name="fetchEmployeeByID" doc:id="7cf2c065-03f2-4b9c-8eb7-0c3674f1c1c5" >
 		<http:listener doc:name="Listener" doc:id="ea4a4426-d255-4a5d-970b-60c4f6f3e381" config-ref="HTTP_Listener_config" path="/employee/{id}" />
-		<db:select doc:name="Select" doc:id="710bb751-5a7e-4b55-9b71-9aac6a1bd092" config-ref="Database_Config" >
+		<db:select doc:name="Select" doc:id="710bb751-5a7e-4b55-9b71-9aac6a1bd092" config-ref="Database_Config1" >
 			<db:sql ><![CDATA[SELECT * from employee WHERE e_id = :id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
 	'id' : attributes.uriParams.id
@@ -65,7 +68,7 @@ payload]]></ee:set-payload>
 	</flow>
 	<flow name="employeeFlow" doc:id="5c66ba0a-37ae-4cf1-84cb-ee021e57f8a9" >
 		<http:listener doc:name="Listener" doc:id="d912bb3c-df0e-4f83-975c-ba2b8408a7e1" config-ref="HTTP_Listener_config" path="/employee/{id}" allowedMethods="DELETE"/>
-		<db:delete doc:name="Delete" doc:id="8f3e77dc-2645-4452-8086-1db87061f8b6" config-ref="Database_Config">
+		<db:delete doc:name="Delete" doc:id="8f3e77dc-2645-4452-8086-1db87061f8b6" config-ref="Database_Config1">
 			<db:sql ><![CDATA[DELETE from employee where e_id = :id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
 	'id' : attributes.uriParams.id

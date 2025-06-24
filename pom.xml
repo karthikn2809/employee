@@ -35,6 +35,10 @@
 							<groupId>com.mycompany</groupId>
 							<artifactId>postgresql-42.2.18</artifactId>
 						</sharedLibrary>
+						<sharedLibrary>
+							<groupId>org.postgresql</groupId>
+							<artifactId>postgresql</artifactId>
+						</sharedLibrary>
 					</sharedLibraries>
 				</configuration>
 			</plugin>
@@ -64,6 +68,11 @@
 			<groupId>com.mycompany</groupId>
 			<artifactId>postgresql-42.2.18</artifactId>
 			<version>0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.18</version>
 		</dependency>
 	</dependencies>
 
